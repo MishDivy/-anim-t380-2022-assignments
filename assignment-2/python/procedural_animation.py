@@ -1,5 +1,5 @@
 from point import Point
-from anim_controller import AnimationController
+from animation import Animation
 from pathlib import Path
 import numpy as np
 from typing import Callable, Union, List
@@ -13,10 +13,10 @@ MAYA_OUTPUT_FILE = BIN_DIR.joinpath('Test.ma')
 
 class ProceduralSystem:
 
-    def __init__(self, layout_expression: Callable, anim_controller: AnimationController, color: List[float] = None, resample_dist: float = 0.5, limits: List[float] = [10, 10, 10], high_poly: bool = True) -> None:
+    def __init__(self, layout_expression: Callable, anim: Animation, color: List[float] = None, resample_dist: float = 0.5, limits: List[float] = [10, 10, 10], high_poly: bool = True) -> None:
 
         self.layout_expression = layout_expression
-        self.anim_controller = anim_controller
+        self.anim = anim
         self.color = color
         self.resample_dist = resample_dist
         self.limits = limits
@@ -31,8 +31,11 @@ class ProceduralSystem:
 
         for point in self.points:
             instance = self.create_instance(proto, point)
+            self.anim.mesh_loc = point
+            self.anim.mesh_object = instance
+
             cmds.expression(
-                s=f'{instance}.translateY = {point.y} + {self.anim_controller.amplitude}*sin(-{point.distance(Point(0,0,0))*self.anim_controller.frequency}+time*{self.anim_controller.speed})')
+                s=self.anim.get_anim())
 
         cmds.setAttr(f'{proto}.visibility', 0)
 
@@ -46,14 +49,14 @@ class ProceduralSystem:
                 points.append(Point(x, self.layout_expression(x, y), y))
         return points
 
-    @staticmethod
+    @ staticmethod
     def move_mesh_to_point(mesh_object: str, point: Point) -> None:
         cmds.select(mesh_object)
         cmds.move(point.x, point.y, point.z)
 
     def create_custom_locator(self, name=None, point: Point = None) -> Union[str, None]:
 
-        atom_mesh = self.create_mesh(name, self.high_poly)
+        atom_mesh = self.create_mesh(name)
         if point:
             self.move_mesh_to_point(atom_mesh, point)
         material_success = self.apply_material(atom_mesh)
@@ -100,7 +103,7 @@ class ProceduralSystem:
             return True
         return False
 
-    @staticmethod
+    @ staticmethod
     def get_SG_from_existing_shader(shader=None) -> Union[str, None]:
 
         if not shader or not cmds.objExists(shader):
@@ -111,7 +114,7 @@ class ProceduralSystem:
             return SG_queue[0]
         return None
 
-    @staticmethod
+    @ staticmethod
     def save_file_to_disk() -> None:
 
         if (MAYA_OUTPUT_FILE.is_file()):

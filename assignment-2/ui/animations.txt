@@ -1,0 +1,1 @@
+$MESH.translateY = $LOC.y + $AMP*sin($LOC.distance()*$FREQ+time*$SPEED)
