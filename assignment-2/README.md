@@ -7,6 +7,8 @@ This tool provides a way to visualize mathematical functions in 3D. It allows yo
 Another function can be layered on top as an animation.
 The tool outputs the Maya file as bin/Procedural_Animation.ma
 
+User can add more animation functions in the var/animations.txt file.
+
 ## Arguements
 
 - `function_index`: This is a mandatory arguement which is used to choose a mathematical function from a list of predefined functions.
