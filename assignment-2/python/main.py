@@ -3,6 +3,7 @@ from animation import Animation
 import math
 import argparse
 
+# Dictionary that conatains all the layout functions.
 EXPRESSIONS = {0: lambda x, y: 0,
                1: lambda x, y: math.sin(x) + math.cos(x),
                2: lambda x, y: math.sqrt(x*x + y*y)/2,
@@ -10,6 +11,9 @@ EXPRESSIONS = {0: lambda x, y: 0,
 
 
 def create_animation(amp: float, freq: float, speed: float, index: int) -> Animation:
+    """Read Animation Expression from the text file and constructs an Animation object.
+    Returns an Animation object."""
+
     anim = Animation(amp, freq, speed)
 
     animations = BIN_DIR.parent / 'ui' / 'animations.txt'
@@ -25,6 +29,8 @@ def create_animation(amp: float, freq: float, speed: float, index: int) -> Anima
 
 
 def setup_cli_parser() -> argparse.Namespace:
+    """Returns a Namespace object with all the arugements that are asked from the user."""
+
     parser = argparse.ArgumentParser(
         description='This tool creates 3D plots of Mathematical Functions.')
     parser.add_argument('function_index', type=int,
@@ -56,6 +62,8 @@ def main() -> None:
 
     args = setup_cli_parser()
 
+    # Check if user provided vales for optional arguements.
+
     color = []
     if args.color_r:
         color.append(args.color_r)
@@ -84,7 +92,10 @@ def main() -> None:
     if args.limit_z:
         limit_z = args.limit_z
 
+    # Create the Animation Object
     anim = create_animation(amp, freq, speed, args.animation_index)
+
+    # Constructs the Procedural System
     ProceduralSystem(EXPRESSIONS[args.function_index % len(EXPRESSIONS.keys())],
                      anim, color, limits=[limit_x, limit_z, limit_z])
 
