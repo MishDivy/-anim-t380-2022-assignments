@@ -69,8 +69,7 @@ class ProceduralSystem:
             self.move_mesh_to_point(instance[0], point)
         return instance[0]
 
-    @staticmethod
-    def create_mesh(name=None, high_poly=False) -> str:
+    def create_mesh(self, name=None) -> str:
 
         cube = cmds.polyCube(n=name) if name else cmds.polyCube()
         cmds.select(cube[0])
@@ -78,7 +77,7 @@ class ProceduralSystem:
         cmds.polyBevel3(cube[0], fraction=0.9, offsetAsFraction=True, autoFit=True, depth=-0.7, mitering=0, miterAlong=0, chamfer=1, segments=5,
                         worldSpace=1, smoothingAngle=30, subdivideNgons=1, mergeVertices=1, mergeVertexTolerance=0.0001, miteringAngle=180, angleTolerance=180, ch=1)
 
-        if high_poly:
+        if self.high_poly:
             cmds.polyBevel3(cube[0], fraction=0.5, offsetAsFraction=1, autoFit=1, depth=1, mitering=0, miterAlong=0, chamfer=1, segments=3, worldSpace=1,
                             smoothingAngle=30, subdivideNgons=1, mergeVertices=1, mergeVertexTolerance=0.0001, miteringAngle=180, angleTolerance=180, ch=1)
 
