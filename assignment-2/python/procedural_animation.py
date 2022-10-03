@@ -8,7 +8,7 @@ import maya.standalone
 maya.standalone.initialize()
 
 BIN_DIR = Path(__file__).parent.parent.joinpath('bin')
-MAYA_OUTPUT_FILE = BIN_DIR.joinpath('Test.ma')
+MAYA_OUTPUT_FILE = BIN_DIR.joinpath('Procedural_Animation.ma')
 
 
 class ProceduralSystem:
