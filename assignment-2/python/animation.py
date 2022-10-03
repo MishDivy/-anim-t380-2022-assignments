@@ -2,6 +2,9 @@ from point import Point
 
 
 class Animation:
+    """This object can be used to construc animation object with custom speed, frequence and amplitude parameters.
+    It also contains utilities to evaluate animation equations."""
+
     def __init__(self, amp: float, freq: float, speed: float) -> None:
         self.amp = amp
         self.freq = freq
@@ -31,6 +34,8 @@ class Animation:
     # TODO: Remove dependancy of the Point class. This is temp code it won't support all cases.
 
     def get_anim(self) -> str:
+        """This method evaluates the given animation mathematical function, and replaces string variables with real variables."""
+
         expr = self.__anim_expression.replace('$MESH', self.mesh_object)
         expr = expr.replace('$LOC.x', str(self.mesh_loc.x))
         expr = expr.replace('$LOC.y', str(self.mesh_loc.y))
@@ -47,4 +52,6 @@ class Animation:
         return expr
 
     def set_anim(self, expression: str) -> None:
+        """Setter for Animation Expression member variable."""
+
         self.__anim_expression = expression
