@@ -16,7 +16,7 @@ def create_animation(amp: float, freq: float, speed: float, index: int) -> Anima
 
     anim = Animation(amp, freq, speed)
 
-    animations = BIN_DIR.parent / 'ui' / 'animations.txt'
+    animations = BIN_DIR.parent / 'var' / 'animations.txt'
     animation_expr = None
     total_anims = None
     with open(animations, 'r') as f:
