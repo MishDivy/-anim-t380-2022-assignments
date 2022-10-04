@@ -37,21 +37,21 @@ def setup_cli_parser() -> argparse.Namespace:
                         help='Index of the Mathematical Function from alist of functions.')
     parser.add_argument('animation_index', type=int,
                         help='Index of the Animation applied from a list of Animations.')
-    parser.add_argument('--color_r', type=float,
+    parser.add_argument('--color_r', type=float, default=0.2,
                         help='Red Channel of color of the mesh material. Ranges between 0.0 and 1.0.')
-    parser.add_argument('--color_g', type=float,
+    parser.add_argument('--color_g', type=float, default=0.5,
                         help='Green Channel of color of the mesh material. Ranges between 0.0 and 1.0.')
-    parser.add_argument('--color_b', type=float,
+    parser.add_argument('--color_b', type=float, default=0.8,
                         help='Blue Channel of color of the mesh material. Ranges between 0.0 and 1.0.')
-    parser.add_argument('--amp', type=float,
+    parser.add_argument('--amp', type=float, default=1.0,
                         help='Amplitude of the Animation Function.')
-    parser.add_argument('--freq', type=float,
+    parser.add_argument('--freq', type=float, default=1.0,
                         help='Frequency of the Animation Function.')
-    parser.add_argument('--speed', type=float,
+    parser.add_argument('--speed', type=float, default=1.0,
                         help='Speed of the Animation Function.')
-    parser.add_argument('--limit_x', type=float,
+    parser.add_argument('--limit_x', type=float, default=10.0,
                         help='Bounds in the direction of X Axis for the function.')
-    parser.add_argument('--limit_z', type=float,
+    parser.add_argument('--limit_z', type=float, default=10.0,
                         help='Bounds in the direction of Z Axis for the function.')
 
     args = parser.parse_args()
@@ -62,42 +62,13 @@ def main() -> None:
 
     args = setup_cli_parser()
 
-    # Check if user provided vales for optional arguements.
-
-    color = []
-    if args.color_r:
-        color.append(args.color_r)
-    else:
-        color.append(0.2)
-    if args.color_g:
-        color.append(args.color_g)
-    else:
-        color.append(0.5)
-    if args.color_b:
-        color.append(args.color_b)
-    else:
-        color.append(0.8)
-
-    amp = freq = speed = 1.0
-    if args.amp:
-        amp = args.amp
-    if args.freq:
-        freq = args.freq
-    if args.speed:
-        speed = args.speed
-
-    limit_x = limit_z = 10.0
-    if args.limit_x:
-        limit_x = args.limit_x
-    if args.limit_z:
-        limit_z = args.limit_z
-
     # Create the Animation Object
-    anim = create_animation(amp, freq, speed, args.animation_index)
+    anim = create_animation(args.amp, args.freq,
+                            args.speed, args.animation_index)
 
     # Constructs the Procedural System
     ProceduralSystem(EXPRESSIONS[args.function_index % len(EXPRESSIONS.keys())],
-                     anim, color, limits=[limit_x, limit_z, limit_z])
+                     anim, [args.color_r, args.color_g, args.color_b], limits=[args.limit_x, args.limit_z, args.limit_z])
 
 
 if __name__ == '__main__':
