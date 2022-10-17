@@ -20,7 +20,7 @@ To set the asset name use the *asset* alias.
 
 ***For Example:*** 
 
-    Import-Module etc/aliases.ps1
+    Import-Module .\etc\aliases.ps1
     asset -AssetName "RubberToy" 
 
 **Note:** To permanently install the alias copy the commands in aliases.ps1 to $PROFILE for use in Powershell.   

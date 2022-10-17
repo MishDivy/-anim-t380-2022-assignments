@@ -1,0 +1,41 @@
+global proc shelf_Tools () {
+    global string $gBuffStr;
+    global string $gBuffStr0;
+    global string $gBuffStr1;
+
+
+    shelfButton
+        -enableCommandRepeat 1
+        -flexibleWidthType 3
+        -flexibleWidthValue 32
+        -enable 1
+        -width 35
+        -height 34
+        -manage 1
+        -visible 1
+        -preventOverride 0
+        -annotation "from pathlib import Path\nimport maya.cmds as cmds\n\nclass FileNeverSavedError (Exception):\n    def __init__(self, message: str) -> None:\n        super().__init__(message)\n\ndef main()->None:\n    is_saved_atleast_once = cmds.file(q=True, ex=True )\n    if not is_saved_atleast_once:\n        raise FileNeverSavedError(\"The current maya scene was never saved. This tool works for subsequent saves.\")\n\n    current_save_dir = Path(cmds.file(q=True, sn=True))\n    current_version = current_save_dir.stem.split('.')[-1]\n\n    new_file_name = current_save_dir.stem.replace(current_version, str(int(current_version) + 1))\n    new_file_dir = current_save_dir.parent / new_file_name\n\n    print(new_file_dir)\n\n\n    cmds.file( rename=new_file_dir ) \n    cmds.file(f=True, save=True, options = \"v=0;\")\n\n\nif __name__ == '__main__':\n    main()" 
+        -enableBackground 0
+        -backgroundColor 0 0 0 
+        -highlightColor 0.321569 0.521569 0.65098 
+        -align "center" 
+        -label "from pathlib import Path\nimport maya.cmds as cmds\n\nclass FileNev..." 
+        -labelOffset 0
+        -rotation 0
+        -flipX 0
+        -flipY 0
+        -useAlpha 1
+        -overlayLabelColor 0.8 0.8 0.8 
+        -overlayLabelBackColor 0 0 0 0.5 
+        -image "pythonFamily.png" 
+        -image1 "pythonFamily.png" 
+        -style "iconOnly" 
+        -marginWidth 1
+        -marginHeight 1
+        -command "from pathlib import Path\nimport maya.cmds as cmds\nimport os\nfrom typing import Union\n\nASSET_NAME = os.getenv('asset')\nASSET_TYPE = os.getenv('assetType')\nPROJECT_DIR = os.getenv('project')\nUSER = os.getenv('USERNAME')\n\n\nclass EnvironmentVariablesNotFound(Exception):\n    \"\"\"Custom Exception class for missing environment variables.\"\"\"\n\n    def __init__(self, message: str = 'Environment variables not found. Please set the environment variables for the asset through powershell script or manually.') -> None:\n        super().__init__(message)\n\n\ndef save_file_to_disk(path: Union[Path, str]) -> None:\n    \"\"\"Saves current Maya scene to disk.\"\"\"\n\n    cmds.file(rename=str(path))\n    cmds.file(f=True, save=True, options=\"v=0;\")\n\n\ndef is_file_name_valid(file_name: str) -> bool:\n    \"\"\"Checks whether a file name follows the convention {asset_name}.{asset_type}.{user}.{version}.\"\"\"\n\n    elements = file_name.split('.')\n    if len(elements) == 4 and elements[-1].isdigit():\n        return True\n    return False\n\n\ndef get_default_save_path() -> Path:\n    \"\"\"Returns a deafult save path based on environment variables\"\"\"\n\n    return Path(PROJECT_DIR) / f'{ASSET_NAME}.{ASSET_TYPE}.{USER}.1.ma'\n\n\ndef get_subsequent_save_path() -> Path:\n    \"\"\" Returns a file path with an incremented version number.\n    Creates a new valid file path if current file name/path is invalid.\"\"\"\n\n    current_save_dir = cmds.file(q=True, sn=True)\n    current_save_dir = Path(current_save_dir)\n    current_name = current_save_dir.stem\n\n    if not is_file_name_valid(current_name):\n\n        print('Current file name is invalid. Saving file with a valid name.')\n        return get_default_save_path()\n\n    current_version = current_save_dir.stem.split('.')[-1]\n    new_file_name = current_save_dir.stem.replace(\n        current_version, str(int(current_version) + 1))\n    return current_save_dir.parent / f'{new_file_name}.ma'\n\n\ndef main() -> None:\n    \"\"\"Saves the currently open maya scene to disk with a valid name.\"\"\"\n\n    if None in [ASSET_NAME, ASSET_TYPE, USER, PROJECT_DIR]:\n        raise EnvironmentVariablesNotFound()\n\n    if not Path(PROJECT_DIR).is_dir():\n        os.makedirs(PROJECT_DIR)\n\n    is_saved_atleast_once = cmds.file(q=True, ex=True)\n\n    new_save_path = get_subsequent_save_path(\n    ) if is_saved_atleast_once else get_default_save_path()\n\n    print(new_save_path)\n    save_file_to_disk(str(new_save_path))\n\n\nif __name__ == '__main__':\n    main()\n" 
+        -sourceType "python" 
+        -commandRepeatable 1
+        -flat 1
+    ;
+
+} 
