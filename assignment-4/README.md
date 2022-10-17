@@ -6,9 +6,9 @@ This tool can be used to save maya scenes with automatic version increments.
 If the current maya scene has never been saved or was saved with an invalid name then it will be saved to the project directory with the following naming: 
 {asset_name}.{asset_type}.{username}.1.ma 
 
-Otherwise, if a file already exists with a valid name, the tool will increment the version number and save it to the current directory.
+Otherwise, if the current maya file already exist with a valid name, the tool will increment the version number and save it to the current directory.
 
-Asset name, Asset Type and Project Directory can be set in Environment Variables or using the PowerShell alias located at etc/aliases.ps1
+Asset name, Asset Type and Project Directory can be set in Environment Variables using the PowerShell alias located at etc/aliases.ps1
 
 ## Additional Instructions
 
