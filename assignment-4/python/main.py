@@ -5,22 +5,27 @@ from typing import Union
 
 ASSET_NAME = os.getenv('asset')
 ASSET_TYPE = os.getenv('assetType')
-PROJECT_DIR = Path(os.getenv('project'))
+PROJECT_DIR = os.getenv('project')
 USER = os.getenv('USERNAME')
 
 
 class EnvironmentVariablesNotFound(Exception):
+    """Custom Exception class for missing environment variables."""
+
     def __init__(self, message: str = 'Environment variables not found. Please set the environment variables for the asset through powershell script or manually.') -> None:
         super().__init__(message)
 
 
 def save_file_to_disk(path: Union[Path, str]) -> None:
+    """Saves current Maya scene to disk."""
 
     cmds.file(rename=str(path))
     cmds.file(f=True, save=True, options="v=0;")
 
 
 def is_file_name_valid(file_name: str) -> bool:
+    """Checks whether a file name follows the convention {asset_name}.{asset_type}.{user}.{version}."""
+
     elements = file_name.split('.')
     if len(elements) == 4 and elements[-1].isdigit():
         return True
@@ -28,10 +33,14 @@ def is_file_name_valid(file_name: str) -> bool:
 
 
 def get_default_save_path() -> Path:
-    return PROJECT_DIR / f'{ASSET_NAME}.{ASSET_TYPE}.{USER}.1.ma'
+    """Returns a deafult save path based on environment variables"""
+
+    return Path(PROJECT_DIR) / f'{ASSET_NAME}.{ASSET_TYPE}.{USER}.1.ma'
 
 
 def get_subsequent_save_path() -> Path:
+    """ Returns a file path with an incremented version number.
+    Creates a new valid file path if current file name/path is invalid."""
 
     current_save_dir = cmds.file(q=True, sn=True)
     current_save_dir = Path(current_save_dir)
@@ -49,10 +58,13 @@ def get_subsequent_save_path() -> Path:
 
 
 def main() -> None:
+    """Saves the currently open maya scene to disk with a valid name."""
 
-    if any([ASSET_NAME, ASSET_TYPE, USER, PROJECT_DIR]) is None:
-        raise EnvironmentVariablesNotFound(
-        )
+    if None in [ASSET_NAME, ASSET_TYPE, USER, PROJECT_DIR]:
+        raise EnvironmentVariablesNotFound()
+
+    if not Path(PROJECT_DIR).is_dir():
+        os.makedirs(PROJECT_DIR)
 
     is_saved_atleast_once = cmds.file(q=True, ex=True)
 
