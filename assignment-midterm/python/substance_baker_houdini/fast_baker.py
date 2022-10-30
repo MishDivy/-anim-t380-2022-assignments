@@ -1,13 +1,11 @@
-# import hou
 import os
 from collections.abc import Iterable
 from pysbs import batchtools
 from pathlib import Path
-import logging
-from class_utils import SDGEnum, wait_for_substance_engine, InvalidTypeError, SubstanceEngineError
+from class_utils import SDGEnum, wait_for_substance_engine, logger
 
 
-def bake_mesh_maps(mesh: Path, tex_out: Path, maps: Iterable[SDGEnum.MeshMaps], output_resolution: int = 11, high_poly_bake: bool = False, high_poly_mesh: Path = None) -> None:
+def bake_mesh_maps(mesh: Path, tex_out: Path, maps: SDGEnum.MeshMaps, output_resolution: int = 11, high_poly_bake: bool = False, high_poly_mesh: Path = None) -> None:
 
     if not mesh.is_file():
         raise FileNotFoundError(f'Cannot find {str(mesh)} file.')
@@ -35,6 +33,13 @@ def bake_mesh_maps(mesh: Path, tex_out: Path, maps: Iterable[SDGEnum.MeshMaps], 
                                        output_resolution],
                           output_path=str(tex_out),
                           output_name=f'{mesh.stem}_{map.name}').wait()
+
+                img_path = tex_out / f'{mesh.stem}_{map.name}.png'
+                wait_for_substance_engine(lambda img_path: Path(img_path).is_file(),
+                                          f'Texture map: {map.name} Baked Successfully!',
+                                          f'Cannot bake map: {map.name} the texture map.',
+                                          wait_interval=0.2,
+                                          img_path=img_path)
             else:
                 raise NotImplementedError(
                     f'Low Poly baking is unavailable for {map.name} map. Try high poly baking.')
@@ -50,15 +55,13 @@ def bake_mesh_maps(mesh: Path, tex_out: Path, maps: Iterable[SDGEnum.MeshMaps], 
                           output_path=str(tex_out),
                           output_name=f'{mesh.stem}_{map.name}').wait()
 
+                img_path = tex_out / f'{mesh.stem}_{map.name}.png'
+                wait_for_substance_engine(lambda img_path: Path(img_path).is_file(),
+                                          f'Texture map: {map.name} Baked Successfully!',
+                                          f'Cannot bake map: {map.name} the texture map.',
+                                          wait_interval=0.2,
+                                          img_path=img_path)
+
             else:
                 raise NotImplementedError(
                     f'High Poly baking is unavailable for {map.name} map. Try low poly baking or changing the path to a valid high ppoly mesh.')
-
-
-if __name__ == '__main__':
-
-    logging.basicConfig(
-        format='%(asctime)s: %(name)-15s: %(levelname)s: %(message)s')
-
-    logger = logging.getLogger('Substance-Houdini-Baker')
-    logger.setLevel(logging.DEBUG)

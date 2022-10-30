@@ -3,7 +3,14 @@ from collections.abc import Iterable
 from pysbs import sbsenum
 from enum import Enum, auto
 import time
+import logging
 
+# Setup Logger
+logging.basicConfig(
+    format='%(asctime)s: %(name)-15s: %(levelname)s: %(message)s')
+
+logger = logging.getLogger('Substance-Houdini-Baker')
+logger.setLevel(logging.DEBUG)
 
 class SDGEnum:
     class ExtermeValue(Enum):
@@ -53,7 +60,7 @@ def wait_for_substance_engine(condition_func: Callable,  pass_message: str, fail
     while True:
         if callable(condition_func):
             if condition_func(**kwargs):
-                print(pass_message)
+                logger.info(pass_message)
                 return
             else:
                 if wait_time >= wait_limit:
@@ -61,7 +68,7 @@ def wait_for_substance_engine(condition_func: Callable,  pass_message: str, fail
                         f'{fail_message}. Substance Engine taking too long to respond.')
                 time.sleep(wait_interval)
                 wait_time += wait_interval
-                print('Waiting for Substance Engine....')
+                logger.error('Waiting for Substance Engine....')
         else:
             raise NotImplementedError('Function provided is not callable.')
 
