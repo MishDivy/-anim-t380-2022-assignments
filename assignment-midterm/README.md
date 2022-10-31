@@ -2,7 +2,7 @@
 
 ## Description
 
-This project provides a way to bake texture maps for a mesh in Houdini using Substance Baker. Substance Baker is faster and mor relaible than maps baker that ships with Houdini.
+This project provides a way to bake texture maps for a mesh in Houdini using Substance Baker. Substance Baker is faster and more relaible than maps baker that ships with Houdini.
 
 This project also provides an example worflow for creating a batch of fbx meshes, then automatically bake textures for the meshes using Substance Automation Toolkit (SAT), create a convex hull collider for the fbx mesh and then save the mesh with collider as USD (Universal Scene Description) files and save the baked textures seperately.
 
