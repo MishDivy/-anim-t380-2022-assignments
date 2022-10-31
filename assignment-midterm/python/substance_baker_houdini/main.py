@@ -44,6 +44,9 @@ def setup_cli_parser() -> argparse.Namespace:
     return args
 
 def main() -> None:
+    """Entry point for Substance Baker.
+    """
+
     args = setup_cli_parser()
 
     mesh = Path(args.mesh)

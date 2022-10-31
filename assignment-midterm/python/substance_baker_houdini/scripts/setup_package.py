@@ -6,6 +6,11 @@ import argparse
 
 
 def create_json(package: Path) -> None:
+    """Creates the JSON package file for adding Environement Variables in Hoduini for the Baker tool.
+
+    Args:
+        package (Path): Absolute Path to the substance_baker_houdini folder.
+    """
 
     package_data = {
         "env": [

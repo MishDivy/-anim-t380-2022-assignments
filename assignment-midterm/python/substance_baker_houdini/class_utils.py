@@ -5,6 +5,8 @@ from enum import Enum, auto
 import time
 import logging
 
+"""This file constains utility classes and functions for using the Substance Baker."""
+
 # Setup Logger
 logging.basicConfig(
     format='%(asctime)s: %(name)-15s: %(levelname)s: %(message)s')

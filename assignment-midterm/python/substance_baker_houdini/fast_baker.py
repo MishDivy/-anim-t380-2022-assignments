@@ -6,6 +6,20 @@ from class_utils import SDGEnum, wait_for_substance_engine, logger
 
 
 def bake_mesh_maps(mesh: Path, tex_out: Path, maps: SDGEnum.MeshMaps, output_resolution: int = 11, high_poly_bake: bool = False, high_poly_mesh: Path = None) -> None:
+    """Bakes texture maps to disk for a given mesh.
+
+    Args:
+        mesh (Path): Path to the mesh file.
+        tex_out (Path): Output Texture Directory
+        maps (SDGEnum.MeshMaps): List of Texture Sets that needs to be baked.
+        output_resolution (int, optional): Output Resolution of the textures. Defaults to 11.
+        high_poly_bake (bool, optional): Should it bake from high poly to low poly. Defaults to False.
+        high_poly_mesh (Path, optional): Path to the High Poly Mesh. Defaults to None.
+
+    Raises:
+        FileNotFoundError: Given path for a file is incorrect or broken.
+        NotImplementedError: Functionaly doesn't exists on the Substance Tooling
+    """
 
     if not mesh.is_file():
         raise FileNotFoundError(f'Cannot find {str(mesh)} file.')

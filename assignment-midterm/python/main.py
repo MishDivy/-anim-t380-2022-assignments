@@ -26,12 +26,22 @@ def setup_cli_parser() -> argparse.Namespace:
 
 
 def delete_intermediaries() -> None:
+    """Deletes all files and folders in the intermediaries directory.
+    """
+
     intermediate = Path(os.getcwd()).parent / 'bin' / 'geo' / 'intermediaries'
     for dir in intermediate.iterdir():
         shutil.rmtree(dir)
 
 
 def set_variables(seed: float = 123, num_objects: int = 10, tex_res: int = 10) -> None:
+    """Sets values for different values on Top Nodes in Houdini
+
+    Args:
+        seed (float, optional): Global Seed for mesh generation. Defaults to 123.
+        num_objects (int, optional): Total number of meshes to be generated. Defaults to 10.
+        tex_res (int, optional): Output Resolution of the textures. Defaults to 10.
+    """
 
     wedge = hou.node('/tasks/topnet1/Wedge')
     substance_baker = hou.node('/tasks/topnet1/SubstanceBaker')
@@ -43,6 +53,8 @@ def set_variables(seed: float = 123, num_objects: int = 10, tex_res: int = 10) -
 
 
 def main() -> None:
+    """Entry point for Worflow Example Project.
+    """
 
     args = setup_cli_parser()
     direct = Path(os.getcwd()).parent / 'bin'
@@ -61,5 +73,4 @@ def main() -> None:
 
 
 if __name__ == '__main__':
-
     main()
