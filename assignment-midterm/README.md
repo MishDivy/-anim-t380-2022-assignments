@@ -63,7 +63,7 @@ The command above will generate five USD files that each contain a different mes
 ![Baked Textures](etc/screenshots/Texs.PNG)
 
 
-**Note:** The Substance Baker SOP HDA can be used independently in Houdini for baking textures for different meshes manually.
+**Note:** The Substance Baker SOP HDA can be used independently in Houdini for manual baking of textures.
 
 
 ![Substance Baker](etc/screenshots/Substance%20Baker.PNG)
