@@ -1,52 +1,70 @@
-# Project Setup 
+# Automation using PDG and SAT
 
 ## Description
 
-This tool can be used to save maya scenes with automatic version increments. 
-If the current maya scene has never been saved or was saved with an invalid name then it will be saved to the project directory with the following naming: 
-{asset_name}.{asset_type}.{username}.1.ma 
+This project provides a way to bake texture maps for a mesh in Houdini using Substance Baker. Substance Baker is faster and mor relaible than maps baker that ships with Houdini.
 
-Otherwise, if the current maya file already exist with a valid name, the tool will increment the version number and save it to the current directory.
+This project also provides an example worflow for creating a batch of fbx meshes, then automatically bake textures for the meshes using Substance Automation Toolkit (SAT), create a convex hull collider for the fbx mesh and then save the mesh with collider as USD (Universal Scene Description) files and save the baked textures seperately.
 
-Asset name, Asset Type and Project Directory can be set in Environment Variables using the PowerShell alias located at etc/aliases.ps1
+## Project Structure
 
-## Additional Instructions
+- **bin:** This folder contains the binary file including Houdini Scene and HDAs output geometry and texture sets.
 
-- To Install aliases in Powershell use the **Import-Module etc/aliases.ps1** command.
+    - **geo:** This folder contains the final USD files and intermediate fbx files (if generated).
+    - **otls:** This folder contains the Substance Baker HDA and Sample Mesh Generator HDA
+    - **tex:** This folder contains all the baked texture sets for each mesh.
+    - **Pipeline.hipnc:** This Houdini Project contains the PDG graph that is called by the Python Script.
 
-To set the asset name, asset type or project directory use the *asset* alias.
+- **python:** This folder contains all the python files for the Substance Baker HDA and the workflow example.
 
-***For Example:*** 
+## Requirements
 
-    Import-Module .\etc\aliases.ps1
-    asset -AssetName Robin -AssetType Character -ProjectDir $PWD\bin
+- Houdini 18.0 or above.
+- Substance Automation Toolkit (SAT)
 
-**Note:** To permanently install the alias copy the commands in aliases.ps1 to $PROFILE for use in Powershell.   
+## Installation
 
-- To install the tool as a button in the tools shelf in Maya, copy the `shelf_Tools.mel` file to the Maya's prefs folder: `Documents\maya\<version>\prefs`
+1) Add the directory that contains *hython3.7.exe* to the **PATH** variable. 
 
+    For example: ```C:\Program Files\Side Effects Software\Houdini 19.0.561\bin```
+
+2) Install Substance Automation Toolkit using hython.
+
+    For example: ```hython -m pip install Pysbs-2019.2.3.zip --find-links "C:\Program Files\Allegorithmic\Substance Automation Toolkit\Python API" ```
+
+3) Run the ```install.bat```. This will install and setup the Substance Baker HDA for the default Houdini version.
+
+## Arguements
+- `--seed`: This changes the global seed that is used by the Random Mesh Generator HDA. Default is 1234.0.
+
+- `--num_meshes`: This sets the total number of meshes to be created. Default is 10.
+
+- `-d` or `--delete`: Set this to 1 if you want to automatically remove all the intermediate fbx files. Default is set 0.
+
+- `-r` or `--output_res`: This sets the output resolution of the textures baked for each asset. Default is set to 10.
+        
+        10 = 1024 X 1024
+        11 = 2048 X 2048
+        12 = 4096 X 4096
+        13 = 8192 X 8192
 
 ## Example 
-**Note:** Set the asset alias in powershell, and then click on the Python icon in the "Tools" shelf in maya to use the tool.
 
-    asset -AssetName Robin -AssetType Character -ProjectDir $PWD\bin
+        hython main.py -r 10 --seed 1235 --num_meshes 5 -d 1
 
-Now, anytime when saving the maya scene use the tool in the Tool Shelf or copy the python code and run it in script editor in Maya. 
+The command above will generate five USD files that each contains a different mesh with collider (proxy geometry). It will also generate Curvature, Position, World Space Normals and Ambient Occlusion Maps of 1024 X 1024 resolution for each asset. It will delete all the intermediate .fbx files.
 
-For the above input the file will be saved as:
+![USD Files](etc/screenshots/USD_Files.PNG)
 
-    C:\Users\Divyansh Mishra\Desktop\Drexel University\Fall 22-23\ANIM T380\-anim-t380-2022-assignments\assignment-4\bin\Robin.Character.Divyansh Mishra.1.ma
+![Baked Textures Folder](etc/screenshots/Tex_folder.PNG)
 
-Subsequent saves will be saved as:
+![Baked Textures](etc/screenshots/Texs.PNG)
 
-    Robin.Character.Divyansh Mishra.2.ma
-    Robin.Character.Divyansh Mishra.3.ma
-    .
-    .
-    .
-    and so on
 
-![Example 1](etc/screenshots/tool_example.gif)
+**Note:** The Substance Baker SOP HDA can be used independently in Houdini for baking textures for different meshes manually.
+
+
+![Substance Baker](etc/screenshots/Substance%20Baker.PNG)
 
 
 
