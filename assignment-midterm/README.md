@@ -28,7 +28,9 @@ This project also provides an example workflow for creating a batch of fbx meshe
 
     For example: ```C:\Program Files\Side Effects Software\Houdini 19.0.561\bin```
 
-2) Install Substance Automation Toolkit using hython.
+2) Install Substance Automation Toolkit using hython. 
+
+    **Note:** Pysbs.zip needs to be downloaded from Adobe's website with a valid license.
 
     For example: ```hython -m pip install Pysbs-2019.2.3.zip --find-links "C:\Program Files\Allegorithmic\Substance Automation Toolkit\Python API" ```
 
