@@ -20,7 +20,7 @@ def bake(kwargs) -> None:
     tex_prefix = node.parm('tex_prefix').evalAsString()
 
     h2l = node.parm('h2l').evalAsInt()
-    out_res = node.parm('out_res').evalAsInt() + 10
+    out_res = node.parm('out_res').evalAsInt()
     cu = node.parm('cu').evalAsInt()
     ao = node.parm('ao').evalAsInt()
     hi = node.parm('hi').evalAsInt()
@@ -32,12 +32,12 @@ def bake(kwargs) -> None:
     co = node.parm('co').evalAsInt()
 
     if h2l:
-        hi = nm = op = th = wsn = 0
+        wsn = 0
         high_poly_mesh = temp_dir / 'high_poly.fbx'
         rop_high_poly.parm('sopoutput').set(str(high_poly_mesh))
         rop_high_poly.parm('execute').pressButton()
     else:
-        co = 0
+        hi = nm = op = th = co = 0
 
     low_poly_mesh = temp_dir / (tex_prefix + '.fbx')
     rop_low_poly.parm('sopoutput').set(str(low_poly_mesh))
