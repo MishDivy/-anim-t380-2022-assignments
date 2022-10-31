@@ -2,9 +2,9 @@
 
 ## Description
 
-This project provides a way to bake texture maps for a mesh in Houdini using Substance Baker. Substance Baker is faster and more relaible than maps baker that ships with Houdini.
+This project provides a way to bake texture maps for a mesh in Houdini using Substance Baker. Substance Baker is faster and more reliable than the maps baker that ships with Houdini.
 
-This project also provides an example worflow for creating a batch of fbx meshes, then automatically bake textures for the meshes using Substance Automation Toolkit (SAT), create a convex hull collider for the fbx mesh and then save the mesh with collider as USD (Universal Scene Description) files and save the baked textures seperately.
+This project also provides an example workflow for creating a batch of fbx meshes, then automatically bakes textures for the meshes using Substance Automation Toolkit (SAT). The script also creates a convex hull collider for the fbx mesh and then saves the mesh with collider as USD (Universal Scene Description) files and saves the baked textures separately.
 
 ## Project Structure
 
@@ -52,7 +52,7 @@ This project also provides an example worflow for creating a batch of fbx meshes
 
         hython main.py -r 10 --seed 1235 --num_meshes 5 -d 1
 
-The command above will generate five USD files that each contains a different mesh with collider (proxy geometry). It will also generate Curvature, Position, World Space Normals and Ambient Occlusion Maps of 1024 X 1024 resolution for each asset. It will delete all the intermediate .fbx files.
+The command above will generate five USD files that each contain a different mesh with a collider (proxy geometry). It will also generate Curvature, Position, World Space Normals, and Ambient Occlusion Maps of 1024 X 1024 resolution for each asset. It will delete all the intermediate .fbx files.
 
 ![USD Files](etc/screenshots/USD_Files.PNG)
 
