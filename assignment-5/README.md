@@ -9,6 +9,10 @@ The tool outputs the Maya file as bin/Procedural_Animation.ma
 
 User can add more animation functions in the var/animations.txt file.
 
+## Running in Maya
+
+Run the gui.py script, in the python folder, in maya script editor to use this tool with a GUI.
+
 ## Arguements
 
 - `function_index`: This is a mandatory arguement which is used to choose a mathematical function from a list of predefined functions.
@@ -31,7 +35,13 @@ User can add more animation functions in the var/animations.txt file.
 
 - `--limit_z`: This sets the bounds of the total system in the Z Direction. Nothing will be spawned before -limit_z or after +limit_z on the Z Axis.
 
-## Examples
+## GUI Example
+
+Inside maya the tool should look like below:
+
+![GUI Example](bin/playblasts/gui_example.gif)
+
+## CLI Examples
 
 - mayapy main.py 0 0 --color_r 0.3 --color_g 0.2 --color_b 0.6
 
@@ -44,6 +54,3 @@ The above command will generate the output shown below:
 The above command will generate the output shown below:
 
 ![Example 1](bin/playblasts/Example_2.gif)
-
-
-
