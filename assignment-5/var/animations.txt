@@ -1,0 +1,5 @@
+$MESH.translateY = $LOC.y + $AMP*sin($LOC.distance()*$FREQ+time*$SPEED)
+$MESH.translateY = $LOC.y + $AMP*sin($LOC.x*$FREQ+time*$SPEED)
+$MESH.translateY = $LOC.y + $AMP*sin($LOC.z*$FREQ+time*$SPEED)
+$MESH.translateY = $LOC.y + $AMP*sin($LOC.y*$FREQ+time*$SPEED)
+$MESH.translateY = $LOC.y + $AMP*sin(atan($LOC.y/($LOC.x+0.1))*$FREQ+time*$SPEED)
