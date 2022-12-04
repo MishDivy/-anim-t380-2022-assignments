@@ -1,2 +1,3 @@
-# OpenAI-SD
-This repo contains experiments with OpenAI in Substance Designer.
+# OpenAI - Substance Designer Plugin
+
+This project contains plugin to use OpenAI DALL-E2 inside Substance Designer.
