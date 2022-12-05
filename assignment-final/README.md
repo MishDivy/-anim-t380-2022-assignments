@@ -18,16 +18,16 @@ Users can create images from text prompts, get variations for any node in substa
 3) Open Plugin Manager from Tools > Plugin Manager.
 4) Click on Install Button and select the *image_creator.sdplugin*.
 
-    ![Plugin Manager](etc/screenshots/sd_plugin_install.png)
+    ![Plugin Manager](etc/screenshots/sd_plugin_install.PNG)
 
 5) Create a free or paid account for [OpenAI](https://openai.com/) in order to get the API Key.
 6) Login to the newly created account. Click on Presonal (on the top right), then click on View API Keys.
 
-    ![View API Keys](etc/screenshots/view_api_keys.png)
+    ![View API Keys](etc/screenshots/view_api_keys.PNG)
 
 7) Click on *Create New Secret Key* button
 
-    ![Create API Key](etc/screenshots/create_key.png)
+    ![Create API Key](etc/screenshots/create_key.PNG)
 
     **Note:** Do not share the API Key with anyone.
 
@@ -45,7 +45,7 @@ Plugin is now installed and should be ready to use.
 
 1) If the plugin was successfully installed you should see the OpenAI toolbar on creating a new graph in Substance Designer. You can click on the OpenAI icon to hide or unhide the plugin related UI.
 
-   ![OpenAI Toolbar](etc/screenshots/openai_toolbar.png)
+   ![OpenAI Toolbar](etc/screenshots/openai_toolbar.PNG)
 
 2) Write any text prompt in the text field and press play button to create a bitmap node with the resultant image.
 
